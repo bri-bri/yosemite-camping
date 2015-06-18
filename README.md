@@ -3,6 +3,14 @@ This is a simple script for scraping availability of campgrounds! The recreation
 
 It's currently hardcoded for yosemite, but with a bit of network sniffing you can reconfigure for other national parks.
 
+### Sample Output
+List of campsites with availabilities on queried dates + links.
+```
+UPPER PINES, Booking Url: http://www.recreation.gov/unifSearchInterface.do?interface=bookcamp&contractCode=NRSO&parkId=70925
+LOWER PINES, Booking Url: http://www.recreation.gov/unifSearchInterface.do?interface=bookcamp&contractCode=NRSO&parkId=70928
+NORTH PINES, Booking Url: http://www.recreation.gov/unifSearchInterface.do?interface=bookcamp&contractCode=NRSO&parkId=70927
+```
+
 # Instructions
 Install requirements:
 ```
