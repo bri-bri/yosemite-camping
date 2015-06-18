@@ -18,7 +18,9 @@ pip install -r requirements.txt
 ```
 Use: `python campsites.py --start_date 2015-04-24 --end_date 2015-04-25`
 
-Best use is to set a crontab on a ~5 minute interval (I've found that a 10-minute interval is too long because the campsites will be taken by the time I'm able to act on the alert). Simple 
+Best use is to set a crontab on a ~5 minute interval (I've found that a 10-minute interval is too long because the campsites will be taken by the time I'm able to act on the alert).
+
+`campsites.sh` demos a simple bash script wrapping the python script and opening a text file if results are found that could be set up to be triggered through cron.
 
 ## Searching for parks other than Yosemite
 
