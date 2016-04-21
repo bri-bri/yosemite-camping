@@ -3,6 +3,7 @@ import argparse
 import copy
 import requests
 
+import urllib
 from urlparse import parse_qs
 from datetime import datetime, timedelta
 from bs4 import BeautifulSoup
@@ -59,8 +60,6 @@ UNIF_SEARCH = "/unifSearch.do"
 UNIF_RESULTS = "/unifSearchResults.do"
 
 def findCampSites(args):
-    if 'end_date' not in args or not args['end_date']:
-        args['end_date'] = getNextDay(args['start_date'])
     payload = generatePayload(args['start_date'], args['end_date'])
 
     content_raw = sendRequest(payload)
@@ -119,7 +118,16 @@ if __name__ == "__main__":
     parser.add_argument("--end_date", type=str, help="End date [YYYY-MM-DD]")
 
     args = parser.parse_args()
-    sites = findCampSites(vars(args))
+    arg_dict = vars(args)
+    if 'end_date' not in arg_dict or not arg_dict['end_date']:
+        arg_dict['end_date'] = getNextDay(arg_dict['start_date'])
+
+    sites = findCampSites(arg_dict)
     if sites:
         for site in sites:
-            print site
+            print site + \
+                "&arrivalDate={}&departureDate={}" \
+                .format(
+                        urllib.quote_plus(formatDate(arg_dict['start_date'])),
+                        urllib.quote_plus(formatDate(arg_dict['end_date'])))
+
