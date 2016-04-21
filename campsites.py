@@ -62,7 +62,7 @@ def findCampSites(args):
     payload = generatePayload(args['start_date'], args['end_date'])
 
     content_raw = sendRequest(payload)
-    html = BeautifulSoup(content_raw)
+    html = BeautifulSoup(content_raw, 'html.parser')
     sites = getSiteList(html)
     return sites
 
