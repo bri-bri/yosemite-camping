@@ -4,7 +4,7 @@ import copy
 import requests
 
 from urlparse import parse_qs
-from datetime import datetime
+from datetime import datetime, timedelta
 from bs4 import BeautifulSoup
 
 # Hardcoded list of campgrounds I'm willing to sleep at
@@ -59,12 +59,19 @@ UNIF_SEARCH = "/unifSearch.do"
 UNIF_RESULTS = "/unifSearchResults.do"
 
 def findCampSites(args):
+    if 'end_date' not in args or not args['end_date']:
+        args['end_date'] = getNextDay(args['start_date'])
     payload = generatePayload(args['start_date'], args['end_date'])
 
     content_raw = sendRequest(payload)
     html = BeautifulSoup(content_raw, 'html.parser')
     sites = getSiteList(html)
     return sites
+
+def getNextDay(date):
+    date_object = datetime.strptime(date, "%Y-%m-%d")
+    next_day = date_object + timedelta(days=1)
+    return datetime.strftime(next_day, "%Y-%m-%d")
 
 def formatDate(date):
     date_object = datetime.strptime(date, "%Y-%m-%d")
@@ -108,7 +115,7 @@ def sendRequest(payload):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--start_date", type=str, help="Start date [YYYY-MM-DD]")
+    parser.add_argument("--start_date", required=True, type=str, help="Start date [YYYY-MM-DD]")
     parser.add_argument("--end_date", type=str, help="End date [YYYY-MM-DD]")
 
     args = parser.parse_args()
