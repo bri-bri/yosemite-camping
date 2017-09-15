@@ -55,7 +55,7 @@ PAYLOAD = {
 }
 
 
-BASE_URL = "http://www.recreation.gov"
+BASE_URL = "https://www.recreation.gov"
 UNIF_SEARCH = "/unifSearch.do"
 UNIF_RESULTS = "/unifSearchResults.do"
 
@@ -101,11 +101,11 @@ def getSiteList(html):
 def sendRequest(payload):
     with requests.Session() as s:
         
-        s.get(BASE_URL + UNIF_RESULTS) # Sets session cookie
-        s.post(BASE_URL + UNIF_SEARCH, LOCATION_PAYLOAD) # Sets location to yosemite
-        s.post(BASE_URL + UNIF_SEARCH, CAMPING_PAYLOAD) # Sets search type to camping
+        s.get(BASE_URL + UNIF_RESULTS, verify=False) # Sets session cookie
+        s.post(BASE_URL + UNIF_SEARCH, LOCATION_PAYLOAD, verify=False) # Sets location to yosemite
+        s.post(BASE_URL + UNIF_SEARCH, CAMPING_PAYLOAD, verify=False) # Sets search type to camping
 
-        resp = s.post(BASE_URL + UNIF_SEARCH, payload) # Runs search on specified dates
+        resp = s.post(BASE_URL + UNIF_SEARCH, payload, verify=False) # Runs search on specified dates
         if (resp.status_code != 200):
             raise Exception("failedRequest","ERROR, %d code received from %s".format(resp.status_code, BASE_URL + SEARCH_PATH))
         else:
